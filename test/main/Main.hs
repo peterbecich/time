@@ -11,6 +11,7 @@ import Test.Calendar.MonthDay
 import Test.Calendar.Valid
 import Test.Calendar.Week
 import Test.Clock.Conversion
+import Test.Clock.LeapSeconds
 import Test.Clock.Resolution
 import Test.Clock.TAI
 import Test.Format.Format
@@ -38,7 +39,7 @@ tests =
               , testWeek
               , testDuration
               ]
-        , testGroup "Clock" [testClockConversion, testResolutions, testTAI]
+        , testGroup "Clock" [testClockConversion, testResolutions, testTAI, testLeapSeconds]
         , testGroup "Format" [testFormat, testParseTime, testISO8601]
         , testGroup "LocalTime" [testTime, testTimeOfDay, testCalendarDiffTime]
         ]

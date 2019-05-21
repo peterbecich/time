@@ -5,6 +5,9 @@ Please <https://github.com/haskell/time/issues/new let me know> if you depend on
 module Data.Time.Format.Internal
     ( FormatTime(..)
     , ParseTime(..)
+    , timeSubstituteTimeSpecifier
+    , timeParseTimeSpecifier
+    , durationParseTimeSpecifier
     ) where
 
 import Data.Time.Format.Format.Class

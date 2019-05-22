@@ -46,7 +46,10 @@ library
     c-sources: lib/cbits/HsTime.c
     build-depends:
         base >= 4.9 && < 5,
-        deepseq >= 1.1
+        deepseq >= 1.1,
+        bytestring >= 0.9,
+        binary >= 0.4.1,
+        extensible-exceptions >= 0.1.0
     if os(windows)
         build-depends: Win32
     exposed-modules:
@@ -63,6 +66,10 @@ library
         Data.Time.Clock.LeapSeconds,
         Data.Time.LocalTime,
         Data.Time.LocalTime.TimeZone.Series,
+        Data.Time.LocalTime.TimeZone.Olson,
+        Data.Time.LocalTime.TimeZone.Olson.Parse,
+        Data.Time.LocalTime.TimeZone.Olson.Render,
+        Data.Time.LocalTime.TimeZone.Olson.Types,
         Data.Time.Format,
         Data.Time.Format.Internal,
         Data.Time.Format.ISO8601,
@@ -104,6 +111,32 @@ library
         install-includes:
             HsTime.h
             HsTimeConfig.h
+
+executable hzdump
+    hs-source-dirs: app
+    default-language: Haskell2010
+    default-extensions:
+        Rank2Types
+        DeriveDataTypeable
+        StandaloneDeriving
+    ghc-options: -Wall -fwarn-tabs
+    main-is: hzdump.hs
+    build-depends:
+        base >= 4.9 && < 5,
+        time
+
+executable catTZ
+    hs-source-dirs: app
+    default-language: Haskell2010
+    default-extensions:
+        Rank2Types
+        DeriveDataTypeable
+        StandaloneDeriving
+    ghc-options: -Wall -fwarn-tabs
+    main-is: catTZ.hs
+    build-depends:
+        base >= 4.9 && < 5,
+        time
 
 test-suite ShowDefaultTZAbbreviations
     type: exitcode-stdio-1.0

@@ -6,7 +6,9 @@
 -- because Haskell rounds historical solar mean timezones to the
 -- nearest minute, whereas the C implementation rounds to the nearest
 -- second.
-module Main(main) where
+module Main
+    ( main
+    ) where
 
 import Control.Monad (guard)
 import Data.Maybe (listToMaybe)

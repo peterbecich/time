@@ -71,11 +71,13 @@ library
         Data.Time.TZDatabase.Olson.Render,
         Data.Time.TZDatabase.Olson.Types,
         Data.Time.TZDatabase.Database,
-        Data.Time.TZDatabase.Unix,
         Data.Time.Format,
         Data.Time.Format.Internal,
         Data.Time.Format.ISO8601,
         Data.Time
+    if !os(windows)
+        exposed-modules:
+            Data.Time.TZDatabase.Unix
     other-modules:
         Data.Format
         Data.Time.Calendar.Private,

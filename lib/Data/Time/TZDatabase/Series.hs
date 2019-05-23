@@ -3,7 +3,7 @@
 -- | A @TimeZoneSeries@ describes a timezone by specifying the various
 -- clock settings that occurred in the past and are scheduled to occur
 -- in the future for the timezone.
-module Data.Time.LocalTime.TimeZone.Series
+module Data.Time.TZDatabase.Series
     (
   -- * Representing a timezone
   -- $abouttzs

@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------
 
 -- |
--- Module      :  Data.Time.LocalTime.TimeZone.Olson.Parse
+-- Module      :  Data.Time.TZDatabase.Olson.Parse
 -- Copyright   :  Yitzchak Gale 2018
 --
 -- Maintainer  :  Yitzchak Gale <gale@sefer.org>
@@ -19,13 +19,15 @@
 For licensing information, see the BSD3-style license in the file
 LICENSE that was originally distributed by the author together with
 this file. -}
-module Data.Time.LocalTime.TimeZone.Olson.Parse
+module Data.Time.TZDatabase.Olson.Parse
     (
  -- * Parsing Olson timezone files
       getTimeZoneSeriesFromOlsonFile
     , getOlsonFromFile
+    , olsonToMaybeTimeZoneSeries
     , olsonToTimeZoneSeries
     , getOlson
+    , olsonFromByteString
     , OlsonError
     ) where
 
@@ -40,10 +42,10 @@ import Data.List (groupBy, sortBy)
 import Data.Maybe (fromMaybe, listToMaybe)
 import Data.Monoid (mappend)
 import Data.Ord (comparing)
-import Data.Time (TimeZone(TimeZone))
+import Data.Time (TimeZone(TimeZone), utc)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
-import Data.Time.LocalTime.TimeZone.Olson.Types
-import Data.Time.LocalTime.TimeZone.Series (TimeZoneSeries(..))
+import Data.Time.TZDatabase.Olson.Types
+import Data.Time.TZDatabase.Series (TimeZoneSeries(..))
 import Data.Typeable (Typeable)
 import Data.Word (Word8)
 
@@ -59,8 +61,8 @@ instance Show OlsonError where
 instance Exception OlsonError
 
 -- | Convert parsed Olson timezone data into a @TimeZoneSeries@.
-olsonToTimeZoneSeries :: OlsonData -> Maybe TimeZoneSeries
-olsonToTimeZoneSeries (OlsonData ttimes ttinfos@(dflt0:_) _ _) =
+olsonToMaybeTimeZoneSeries :: OlsonData -> Maybe TimeZoneSeries
+olsonToMaybeTimeZoneSeries (OlsonData ttimes ttinfos@(dflt0:_) _ _) =
     fmap (TimeZoneSeries $ mkTZ dflt) . mapM (lookupTZ ttinfos) . uniqTimes . sortBy futureToPast $ ttimes
   where
     dflt = fromMaybe dflt0 . listToMaybe $ filter isStd ttinfos
@@ -70,7 +72,13 @@ olsonToTimeZoneSeries (OlsonData ttimes ttinfos@(dflt0:_) _ _) =
     toUTC = posixSecondsToUTCTime . fromIntegral . transTime
     uniqTimes = map last . groupBy ((==) `on` transTime)
     futureToPast = comparing $ negate . transTime
-olsonToTimeZoneSeries _ = Nothing
+olsonToMaybeTimeZoneSeries _ = Nothing
+
+defaultTimeZoneSeries :: TimeZoneSeries
+defaultTimeZoneSeries = TimeZoneSeries utc []
+
+olsonToTimeZoneSeries :: OlsonData -> TimeZoneSeries
+olsonToTimeZoneSeries odata = fromMaybe defaultTimeZoneSeries $ olsonToMaybeTimeZoneSeries odata
 
 -- | Read timezone data from a binary Olson timezone file and convert
 -- it into a @TimeZoneSeries@ for use together with the types and
@@ -83,7 +91,16 @@ olsonToTimeZoneSeries _ = Nothing
 -- 'Data.Binary.Get.runGet' directly.
 getTimeZoneSeriesFromOlsonFile :: FilePath -> IO TimeZoneSeries
 getTimeZoneSeriesFromOlsonFile fp =
-    getOlsonFromFile fp >>= maybe (throwOlson fp "no timezone found in OlsonData") return . olsonToTimeZoneSeries
+    getOlsonFromFile fp >>= maybe (throwOlson fp "no timezone found in OlsonData") return . olsonToMaybeTimeZoneSeries
+
+-- | Parse a binary Olson ByteString.
+--
+-- If the values in the Olson timezone file exceed the standard size
+-- limits (see 'defaultLimits'), this function throws an
+-- exception. For other behavior, use 'getOlson' and
+-- 'Data.Binary.Get.runGet' directly.
+olsonFromByteString :: L.ByteString -> OlsonData
+olsonFromByteString = runGet $ getOlson defaultLimits
 
 -- | Parse a binary Olson timezone file.
 --
@@ -93,7 +110,7 @@ getTimeZoneSeriesFromOlsonFile fp =
 -- 'Data.Binary.Get.runGet' directly.
 getOlsonFromFile :: FilePath -> IO OlsonData
 getOlsonFromFile fp = do
-    e <- try . fmap (runGet $ getOlson defaultLimits) $ L.readFile fp
+    e <- try $ fmap olsonFromByteString $ L.readFile fp
     either (formatError fp) return e
 
 formatError :: FilePath -> ErrorCall -> IO a

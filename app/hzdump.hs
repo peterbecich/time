@@ -13,8 +13,8 @@ module Main
 import Control.Monad (guard)
 import Data.Maybe (listToMaybe)
 import Data.Time
-import Data.Time.LocalTime.TimeZone.Olson
-import Data.Time.LocalTime.TimeZone.Series
+import Data.Time.TZDatabase.Olson
+import Data.Time.TZDatabase.Series
 import System.Environment (getArgs)
 import System.Exit (ExitCode(ExitFailure), exitSuccess, exitWith)
 

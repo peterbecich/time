@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 
 -- |
--- Module      :  Data.Time.LocalTime.TimeZone.Olson
+-- Module      :  Data.Time.TZDatabase.Olson
 -- Copyright   :  Yitzchak Gale 2018
 --
 -- Maintainer  :  Yitzchak Gale <gale@sefer.org>
@@ -17,12 +17,12 @@
 For licensing information, see the BSD3-style license in the file
 LICENSE that was originally distributed by the author together with
 this file. -}
-module Data.Time.LocalTime.TimeZone.Olson
-    ( module Data.Time.LocalTime.TimeZone.Olson.Parse
-    , module Data.Time.LocalTime.TimeZone.Olson.Render
-    , module Data.Time.LocalTime.TimeZone.Olson.Types
+module Data.Time.TZDatabase.Olson
+    ( module Data.Time.TZDatabase.Olson.Parse
+    , module Data.Time.TZDatabase.Olson.Render
+    , module Data.Time.TZDatabase.Olson.Types
     ) where
 
-import Data.Time.LocalTime.TimeZone.Olson.Parse
-import Data.Time.LocalTime.TimeZone.Olson.Render
-import Data.Time.LocalTime.TimeZone.Olson.Types
+import Data.Time.TZDatabase.Olson.Parse
+import Data.Time.TZDatabase.Olson.Render
+import Data.Time.TZDatabase.Olson.Types

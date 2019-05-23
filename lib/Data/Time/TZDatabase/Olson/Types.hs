@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------
 
 -- |
--- Module      :  Data.Time.LocalTime.TimeZone.Olson.Types
+-- Module      :  Data.Time.TZDatabase.Olson.Types
 -- Copyright   :  Yitzchak Gale 2018
 --
 -- Maintainer  :  Yitzchak Gale <gale@sefer.org>
@@ -20,7 +20,7 @@
 For licensing information, see the BSD3-style license in the file
 LICENSE that was originally distributed by the author together with
 this file. -}
-module Data.Time.LocalTime.TimeZone.Olson.Types
+module Data.Time.TZDatabase.Olson.Types
     (
  -- * Olson timezone datatypes
       OlsonData(..)

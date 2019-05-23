@@ -65,11 +65,13 @@ library
         Data.Time.Clock.TAI,
         Data.Time.Clock.LeapSeconds,
         Data.Time.LocalTime,
-        Data.Time.LocalTime.TimeZone.Series,
-        Data.Time.LocalTime.TimeZone.Olson,
-        Data.Time.LocalTime.TimeZone.Olson.Parse,
-        Data.Time.LocalTime.TimeZone.Olson.Render,
-        Data.Time.LocalTime.TimeZone.Olson.Types,
+        Data.Time.TZDatabase.Series,
+        Data.Time.TZDatabase.Olson,
+        Data.Time.TZDatabase.Olson.Parse,
+        Data.Time.TZDatabase.Olson.Render,
+        Data.Time.TZDatabase.Olson.Types,
+        Data.Time.TZDatabase.Database,
+        Data.Time.TZDatabase.Unix,
         Data.Time.Format,
         Data.Time.Format.Internal,
         Data.Time.Format.ISO8601,
@@ -220,16 +222,19 @@ test-suite test-unix
         FlexibleInstances
         UndecidableInstances
         ScopedTypeVariables
+        RecordWildCards
     ghc-options: -Wall -fwarn-tabs
     c-sources: test/unix/Test/Format/FormatStuff.c
     build-depends:
         base,
         deepseq,
         time,
+        directory,
         random,
         QuickCheck,
         tasty,
         tasty-hunit,
+        tasty-golden,
         tasty-quickcheck
     if !os(windows)
         build-depends: unix
@@ -238,3 +243,4 @@ test-suite test-unix
         Test.TestUtil
         Test.Format.Format
         Test.LocalTime.TimeZone
+        Test.LocalTime.TZ

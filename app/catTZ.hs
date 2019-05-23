@@ -4,7 +4,7 @@ module Main
     ( main
     ) where
 
-import Data.Time.LocalTime.TimeZone.Olson
+import Data.Time.TZDatabase.Olson
 import System.Environment
 
 main :: IO ()

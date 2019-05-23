@@ -3,7 +3,7 @@
 -----------------------------------------------------------------------------
 
 -- |
--- Module      :  Data.Time.LocalTime.TimeZone.Olson.Render
+-- Module      :  Data.Time.TZDatabase.Olson.Render
 -- Copyright   :  Yitzchak Gale 2018
 --
 -- Maintainer  :  Yitzchak Gale <gale@sefer.org>
@@ -17,7 +17,7 @@
 For licensing information, see the BSD3-style license in the file
 LICENSE that was originally distributed by the author together with
 this file. -}
-module Data.Time.LocalTime.TimeZone.Olson.Render
+module Data.Time.TZDatabase.Olson.Render
     (
  -- * Rendering Olson timezone files
  -- | If any of the transition times or leap second times specified
@@ -42,8 +42,8 @@ import Data.Maybe
 import Data.Ord
 import Data.Time
 import Data.Time.Clock.POSIX
-import Data.Time.LocalTime.TimeZone.Olson.Types
-import Data.Time.LocalTime.TimeZone.Series
+import Data.Time.TZDatabase.Olson.Types
+import Data.Time.TZDatabase.Series
 import Data.Word
 
 -- | Render a @TimeZoneSeries@ as a binary Olson timezone file.
